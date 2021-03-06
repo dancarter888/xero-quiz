@@ -34,7 +34,7 @@ const App = () => {
     {category: "English",
     questions: [
       {question: "How many passives are there in this sentence: ‘Dates can be entered in any format, but how they’re displayed on the document is determined by the region set’?",
-      answer: "4",
+      answer: "3",
       type: "number"},
       {question: "Which of these has been incorrectly capitalised?",
       answer: "Xero Adviser Directory",
