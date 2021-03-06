@@ -101,7 +101,7 @@ const App = () => {
       {pageNum !== "home" ? <Banner categories={categories} pageNum={pageNum} /> : null}
       <div className="bg-gray-200 h-full w-full flex justify-center">
         {pageNum === "home" ? <HomeCard setPageNum={setPageNum}/> : null}
-        {pageNum >= 0 && pageNum < 6 ? <Questions questionAnswers={questionAnswers[pageNum].questions} pageNum={pageNum} setPageNum={setPageNum}/> : null}
+        {pageNum >= 0 && pageNum < 6 ? <Questions questions={questionAnswers[pageNum].questions} pageNum={pageNum} setPageNum={setPageNum}/> : null}
       </div>
     </div>
   )
