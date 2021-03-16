@@ -1,9 +1,13 @@
-import React from "react";
+import React, { useState } from "react";
 import emailjs from "emailjs-com";
 
 const EndCard = ({ teamName, retries }) => {
+  const [submitted, setSubmitted] = useState(false);
+
   function sendEmail(e) {
     e.preventDefault();
+
+    setSubmitted(true);
 
     emailjs
       .sendForm(
@@ -43,11 +47,15 @@ const EndCard = ({ teamName, retries }) => {
             name="retries"
             value={retries}
           />
-          <input
-            className="w-full mt-10 cursor-pointer bg-green-500 active:bg-green-700 text-white py-1 px-2 rounded focus:outline-none"
-            type="submit"
-            value="Submit Results"
-          />
+          {!submitted ? (
+            <input
+              className="w-full mt-10 cursor-pointer bg-green-500 active:bg-green-700 text-white py-1 px-2 rounded focus:outline-none"
+              type="submit"
+              value="Submit Results"
+            />
+          ) : (
+            <h1 className="mt-10">Submitted</h1>
+          )}
         </form>
       </div>
     </div>
