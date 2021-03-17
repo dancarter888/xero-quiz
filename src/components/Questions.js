@@ -2,14 +2,20 @@ import React, { useState, useEffect } from "react";
 import QuestionCard from "./QuestionCard";
 import arrow from "../images/arrowIcon.svg";
 
-const Questions = ({ questions, pageNum, setPageNum, retries, setRetries }) => {
+const Questions = ({
+  questions,
+  pageNum,
+  setPageNum,
+  incorrects,
+  setIncorrects,
+}) => {
   const [currentAnswer0, setCurrentAnswer0] = useState("");
   const [correct0, setCorrect0] = useState(null);
   const [currentAnswer1, setCurrentAnswer1] = useState("");
   const [correct1, setCorrect1] = useState(null);
   const [currentAnswer2, setCurrentAnswer2] = useState("");
   const [correct2, setCorrect2] = useState(null);
-  const [localRetires, setLocalRetries] = useState(-1);
+  const [localIncorrects, setLocalIncorrects] = useState(-3);
 
   const currents = [currentAnswer0, currentAnswer1, currentAnswer2];
   const setCorrects = [setCorrect0, setCorrect1, setCorrect2];
@@ -21,11 +27,11 @@ const Questions = ({ questions, pageNum, setPageNum, retries, setRetries }) => {
     setCorrect0(null);
     setCorrect1(null);
     setCorrect2(null);
-    setLocalRetries(-1);
+    setLocalIncorrects(-3);
   }, [questions]);
 
   const handleNext = () => {
-    setRetries(retries + localRetires);
+    setIncorrects(incorrects + localIncorrects);
     setPageNum(pageNum + 1);
   };
 
@@ -73,18 +79,34 @@ const Questions = ({ questions, pageNum, setPageNum, retries, setRetries }) => {
   };
 
   const handleCheck = (question, currentAnswer, setCorrect, index) => {
-    if (
-      (question.type !== "text" &&
-        currentAnswer.toLowerCase() === question.answer.toLowerCase()) ||
-      (question.type === "text" &&
-        checkSimilarity(currentAnswer, question.answer) > 0.85)
-    ) {
-      console.log("CORRECT");
-      setCorrect(true);
-      console.log(correct0, correct1, correct2);
+    if (typeof question.answer === "object") {
+      if (
+        currentAnswer.toLowerCase() === question.answer[0].toLowerCase() ||
+        checkSimilarity(currentAnswer, question.answer[0]) > 0.85 ||
+        currentAnswer.toLowerCase() === question.answer[1].toLowerCase() ||
+        checkSimilarity(currentAnswer, question.answer[1]) > 0.85
+      ) {
+        console.log("CORRECT");
+        setCorrect(true);
+        console.log(correct0, correct1, correct2);
+      } else {
+        console.log("INCOORECT");
+        setCorrect(false);
+      }
     } else {
-      console.log("INCOORECT");
-      setCorrect(false);
+      if (
+        (question.type !== "text" &&
+          currentAnswer.toLowerCase() === question.answer.toLowerCase()) ||
+        (question.type === "text" &&
+          checkSimilarity(currentAnswer, question.answer) > 0.85)
+      ) {
+        console.log("CORRECT");
+        setCorrect(true);
+        console.log(correct0, correct1, correct2);
+      } else {
+        console.log("INCOORECT");
+        setCorrect(false);
+      }
     }
   };
 
@@ -92,10 +114,17 @@ const Questions = ({ questions, pageNum, setPageNum, retries, setRetries }) => {
     for (let i = 0; i < questions.length; i++) {
       handleCheck(questions[i], currents[i], setCorrects[i], i);
     }
-    if (!(correct0 && correct1 && correct2)) {
-      console.log("CHECKS", correct0, correct1, correct2);
-      setLocalRetries(localRetires + 1);
+    let incorrects = 0;
+    if (!correct0) {
+      incorrects += 1;
     }
+    if (!correct1) {
+      incorrects += 1;
+    }
+    if (!correct2) {
+      incorrects += 1;
+    }
+    setLocalIncorrects(localIncorrects + incorrects);
   };
 
   return (

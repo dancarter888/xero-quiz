@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import emailjs from "emailjs-com";
 
-const EndCard = ({ teamName, retries }) => {
+const EndCard = ({ teamName, incorrects }) => {
   const [submitted, setSubmitted] = useState(false);
 
   function sendEmail(e) {
@@ -31,9 +31,11 @@ const EndCard = ({ teamName, retries }) => {
       <div className="text-2xl h-full w-full flex flex-col justify-center items-center py-20">
         <h1 className="text-2xl font-bold">CONGRATULATIONS {teamName}!</h1>
         <h2 className="text-base">
-          You have completed the Back to School Challenge with{" "}
-          <span className="font-bold">{retries} retries!</span>
+          You have completed the Back to School Challenge!
         </h2>
+        <span className="text-base">
+          You only had <strong>{incorrects}</strong> incorrect answers!
+        </span>
         <form className="contact-form" onSubmit={sendEmail}>
           <input
             className="absolute invisible"
@@ -44,8 +46,8 @@ const EndCard = ({ teamName, retries }) => {
           <input
             className="absolute invisible"
             type="text"
-            name="retries"
-            value={retries}
+            name="incorrects"
+            value={incorrects}
           />
           {!submitted ? (
             <input

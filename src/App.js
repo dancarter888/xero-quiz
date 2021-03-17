@@ -6,7 +6,7 @@ import EndCard from "./components/EndCard";
 
 const App = () => {
   const [pageNum, setPageNum] = useState("home");
-  const [retries, setRetries] = useState(0);
+  const [incorrects, setIncorrects] = useState(0);
   const [teamName, setTeamName] = useState("");
   const questionAnswers = [
     {
@@ -109,7 +109,7 @@ const App = () => {
         {
           question:
             "What colourful display in Adobe Audition lets you easily identify mouth noises and clicks?",
-          answer: "Spectral frequency",
+          answer: ["Spectral frequency", "spectral frequency display"],
           type: "text",
         },
         {
@@ -142,7 +142,7 @@ const App = () => {
         {
           question:
             "Who is sitting in the orange bean bag in the Evolve banner image GBL_EDU_IMG_0096?",
-          answer: "Sandeep",
+          answer: ["Sandeep", "Sandeep Garcha"],
           type: "text",
         },
       ],
@@ -177,12 +177,12 @@ const App = () => {
             questions={questionAnswers[pageNum].questions}
             pageNum={pageNum}
             setPageNum={setPageNum}
-            retries={retries}
-            setRetries={setRetries}
+            incorrects={incorrects}
+            setIncorrects={setIncorrects}
           />
         ) : null}
         {pageNum === 6 ? (
-          <EndCard teamName={teamName} retries={retries} />
+          <EndCard teamName={teamName} incorrects={incorrects} />
         ) : null}
       </div>
     </div>
